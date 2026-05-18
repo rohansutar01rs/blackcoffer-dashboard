@@ -16,7 +16,6 @@
     "express": "^5.2.1",
     "mongoose": "^9.6.2"
   },
-  "engines": {
-    "node": "24.x"
-  }
+ "engines": {
+  "node": "24.x"
 }
