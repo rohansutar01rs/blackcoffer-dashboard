@@ -216,7 +216,7 @@ function App() {
         borderColor: "#3B82F6",
         backgroundColor: "#93C5FD",
         tension: 0.4,
-        fill: true,
+        fill: false,
       },
     ],
   };
