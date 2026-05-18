@@ -61,7 +61,7 @@ function App() {
 
   useEffect(() => {
     axios
-  .get("https://blackcoffer-dashboard-lwpw.onrender.com")
+  .get("https://blackcoffer-dashboard-lwpw.onrender.com/api/data")
       .then((res) => {
         setData(res.data);
       })
