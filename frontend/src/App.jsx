@@ -26,7 +26,8 @@ ChartJS.register(
   ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 function App() {
@@ -68,7 +69,6 @@ function App() {
         if (Array.isArray(res.data)) {
           setData(res.data);
         } else {
-          console.log("Data is not array");
           setData([]);
         }
 
@@ -80,17 +80,17 @@ function App() {
       });
   }, []);
 
-  // LOADING SCREEN
+  // LOADING
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-3xl font-bold">
+      <div className="flex justify-center items-center min-h-screen text-3xl font-bold">
         Loading Dashboard...
       </div>
     );
   }
 
-  // FILTERED DATA
+  // FILTER DATA
 
   const filteredData = data.filter((item) => {
     return (
@@ -114,7 +114,7 @@ function App() {
     );
   });
 
-  // COUNTRY CHART
+  // COUNTRY BAR CHART
 
   const countryMap = {};
 
@@ -191,7 +191,7 @@ function App() {
     ],
   };
 
-  // YEARLY LINE CHART
+  // LINE CHART
 
   const yearMap = {};
 
