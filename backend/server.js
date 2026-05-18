@@ -23,7 +23,6 @@ app.get("/", (req, res) => {
 app.get("/api/data", async (req, res) => {
   try {
     const data = await Data.find();
-
     res.json(data);
   } catch (error) {
     res.status(500).json({
@@ -32,8 +31,8 @@ app.get("/api/data", async (req, res) => {
   }
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log("Server Started");
+  console.log(`Server Started on port ${PORT}`);
 });
