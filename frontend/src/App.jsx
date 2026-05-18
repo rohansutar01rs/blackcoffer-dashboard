@@ -14,11 +14,7 @@ import {
   Legend,
 } from "chart.js";
 
-import {
-  Bar,
-  Pie,
-  Line,
-} from "react-chartjs-2";
+import { Bar, Pie, Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -34,6 +30,7 @@ ChartJS.register(
 
 function App() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [selectedCountry, setSelectedCountry] =
     useState("");
@@ -60,12 +57,37 @@ function App() {
     useState("");
 
   useEffect(() => {
-   axios.get("https://blackcoffer-dashboard-lwpw.onrender.com/api/data")
+    axios
+      .get(
+        "https://blackcoffer-dashboard-lwpw.onrender.com/api/data"
+      )
       .then((res) => {
-        setData(res.data);
+        console.log("API DATA:", res.data);
+
+        if (Array.isArray(res.data)) {
+          setData(res.data);
+        } else {
+          console.log("Data is not array");
+          setData([]);
+        }
+
+        setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("API ERROR:", err);
+        setLoading(false);
+      });
   }, []);
+
+  // LOADING SCREEN
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen text-3xl font-bold">
+        Loading Dashboard...
+      </div>
+    );
+  }
 
   // FILTERED DATA
 
@@ -99,7 +121,7 @@ function App() {
     if (item.country && item.intensity) {
       countryMap[item.country] =
         (countryMap[item.country] || 0) +
-        item.intensity;
+        Number(item.intensity);
     }
   });
 
@@ -176,7 +198,7 @@ function App() {
     if (item.start_year && item.intensity) {
       yearMap[item.start_year] =
         (yearMap[item.start_year] || 0) +
-        item.intensity;
+        Number(item.intensity);
     }
   });
 
@@ -198,15 +220,17 @@ function App() {
     ],
   };
 
-  // RELEVANCE + LIKELIHOOD
+  // TOTALS
 
   const totalRelevance = filteredData.reduce(
-    (sum, item) => sum + (item.relevance || 0),
+    (sum, item) =>
+      sum + Number(item.relevance || 0),
     0
   );
 
   const totalLikelihood = filteredData.reduce(
-    (sum, item) => sum + (item.likelihood || 0),
+    (sum, item) =>
+      sum + Number(item.likelihood || 0),
     0
   );
 
